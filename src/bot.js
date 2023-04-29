@@ -73,8 +73,10 @@ async function main() {
 		if (currentHex.startsWith('#')) {
 			try {
 				await getPixelColor(px, py).then((data) => {
-					if (currentHex.slice(1) === data || (currentHex.slice(1) === "ffffff" && data === "")) {
-						console.log(`Pixel ${px}, ${py} is already ${data === "" ? "empty" : data}`);
+					if (data == null || data == undefined) {
+						noskip = false;
+					} else if (currentHex.slice(1) === data || (currentHex.slice(1) === "ffffff" && data === "")) {
+						console.log(`Pixel ${px}, ${py} is already ${(data === "") ? "empty" : data}`);
 						noskip = false;
 					} else {
 						console.log(`Placing color ${currentHex} at pixel ${px}, ${py}`);
@@ -97,7 +99,7 @@ async function main() {
 						}
 					});
 					await sleep((currentTimer) * 1000);
-					await sleep(getRandomInt(150, 400) * 10);
+					await sleep(getRandomInt(150, 250) * 10);
 				} catch (error) {
 					console.log(error);
 				}
