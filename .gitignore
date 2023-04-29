@@ -1,4 +1,4 @@
-array.txt
+*.txt
 __pycache__
 *.png
 .env

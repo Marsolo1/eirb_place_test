@@ -45,21 +45,6 @@ function getRandomInt(min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function computexy(x, y, n, m) {
-	if (x === n - 1 && y === m - 1) {
-		x = 0;
-		y = 0;
-		return true;
-	} else if (x === n - 1) {
-		x = 0;
-		y++;
-		return false;
-	} else {
-		x++;
-		return false;
-	}
-}
-
 async function main() {
 	console.log('Starting...');
 	let x = 0;

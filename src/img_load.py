@@ -26,6 +26,6 @@ for i in range(image.size[0]): # for every pixel:
 
 print(result)
 
-imgArray = open("array.txt", "w")
+imgArray = open(sys.argv[1].replace(".png",".txt"), "w")
 imgArray.write(str(result.tolist()))
 imgArray.close()
