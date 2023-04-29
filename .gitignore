@@ -1,3 +1,5 @@
 array.txt
 __pycache__
 *.png
+.env
+.penv

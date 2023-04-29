@@ -84,12 +84,12 @@ async function main() {
 			});
 			if (noskip) {
 				await placePixel(px, py, currentHex).then((data) => {
+					currentTimer = data.timer.seconds;
 					if (data.success) {
-						console.log(`Placed color ${currentHex} at pixel ${px}, ${py}`);
+						console.log(`Placed color ${currentHex} at pixel ${px}, ${py}. ${currentTimer} seconds remaining`);
 					} else {
 						console.log(`Failed to place color ${currentHex} at pixel ${px}, ${py}`);
 					}
-					currentTimer = data.timer.seconds;
 				});
 				await sleep((currentTimer) * 1000);
 				await sleep(getRandomInt(150, 600) * 10);
