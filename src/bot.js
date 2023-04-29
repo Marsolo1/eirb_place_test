@@ -10,7 +10,7 @@ async function getPixelColor(x, y) {
 		const response = await placeAjax.get(`api/pos-info?x=${x}&y=${y}`).then((data) => {
 			if ("pixel" in data) {
 				if (data.pixel != null && data.pixel != undefined && "colour" in data.pixel) {
-					console.log(`(${x},${y}) is ${data.pixel.colour}`);
+					console.log(`(${x},${y}) is %c${data.pixel.colour}`, `color: #${data.pixel.colour}`);
 					return data.pixel.colour;
 				} else {
 					console.log(`(${x},${y}) is empty`);
@@ -60,10 +60,10 @@ async function main() {
 				if (data == null || data == undefined) {
 					noskip = false;
 				} else if (currentHex.slice(1) === data || (currentHex.slice(1) === "ffffff" && data === "")) {
-					console.log(`Pixel ${px}, ${py} is already ${(data === "") ? "empty" : data}`);
+					console.log(`Pixel ${px}, ${py} is already %c${(data === "") ? "empty" : data}`, `color: #${data}`);
 					noskip = false;
 				} else {
-					console.log(`Placing color ${currentHex} at pixel ${px}, ${py}`);
+					console.log(`Placing color %c${currentHex}%cat pixel ${px}, ${py}`, `color: ${currentHex}`);
 					noskip = true;
 				}
 			});
@@ -71,9 +71,9 @@ async function main() {
 				await placePixel(px, py, currentHex).catch((error) => { console.log(error) }).then((data) => {
 					currentTimer = data.timer.seconds;
 					if (data.success) {
-						console.log(`Placed color ${currentHex} at pixel ${px}, ${py}. ${currentTimer} seconds remaining`);
+						console.log(`Placed color %c${currentHex}%cat pixel ${px}, ${py}. ${currentTimer} seconds remaining`, `color: ${currentHex}`);
 					} else {
-						console.log(`Failed to place color ${currentHex} at pixel ${px}, ${py}`);
+						console.log(`Failed to place color %c${currentHex}%cat pixel ${px}, ${py}`, `color: ${currentHex}`);
 					}
 				});
 				await sleep((currentTimer) * 1000);
