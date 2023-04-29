@@ -14,8 +14,6 @@ colorarray = colormap.generate_rgb_colors_array()
 # print(colorarray)
 
 result = np.array([["       "]*image.size[1]]*image.size[0])
-# print(pixels[4,15])
-print(colormap.closest_color(pixels[0, 0], colormap.generate_rgb_colors_array(), True))
 for i in range(image.size[0]): # for every pixel:
 	for j in range(image.size[1]):
 		(r, g, b) = colormap.closest_color(pixels[i, j], colorarray, True)

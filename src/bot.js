@@ -56,52 +56,42 @@ async function main() {
 		py = start[1] + y;
 		currentHex = image[x][y];
 		if (currentHex.startsWith('#')) {
-			try {
-				await getPixelColor(px, py).then((data) => {
-					if (data == null || data == undefined) {
-						noskip = false;
-					} else if (currentHex.slice(1) === data || (currentHex.slice(1) === "ffffff" && data === "")) {
-						console.log(`Pixel ${px}, ${py} is already ${(data === "") ? "empty" : data}`);
-						noskip = false;
-					} else {
-						console.log(`Placing color ${currentHex} at pixel ${px}, ${py}`);
-						noskip = true;
-					}
-				}, (error) => {
-					console.log(error);
-				});
-			} catch (error) {
-				console.log(error);
-			}
-			if (noskip) {
-				try {
-					await placePixel(px, py, currentHex).then((data) => {
-						currentTimer = data.timer.seconds;
-						if (data.success) {
-							console.log(`Placed color ${currentHex} at pixel ${px}, ${py}. ${currentTimer} seconds remaining`);
-						} else {
-							console.log(`Failed to place color ${currentHex} at pixel ${px}, ${py}`);
-						}
-					});
-					await sleep((currentTimer) * 1000);
-					await sleep(getRandomInt(150, 250) * 10);
-				} catch (error) {
-					console.log(error);
+			await getPixelColor(px, py).catch((error) => { console.log(error); noskip = false }).then((data) => {
+				if (data == null || data == undefined) {
+					noskip = false;
+				} else if (currentHex.slice(1) === data || (currentHex.slice(1) === "ffffff" && data === "")) {
+					console.log(`Pixel ${px}, ${py} is already ${(data === "") ? "empty" : data}`);
+					noskip = false;
+				} else {
+					console.log(`Placing color ${currentHex} at pixel ${px}, ${py}`);
+					noskip = true;
 				}
+			});
+			if (noskip) {
+				await placePixel(px, py, currentHex).catch((error) => { console.log(error) }).then((data) => {
+					currentTimer = data.timer.seconds;
+					if (data.success) {
+						console.log(`Placed color ${currentHex} at pixel ${px}, ${py}. ${currentTimer} seconds remaining`);
+					} else {
+						console.log(`Failed to place color ${currentHex} at pixel ${px}, ${py}`);
+					}
+				});
+				await sleep((currentTimer) * 1000);
+				// await sleep(getRandomInt(50, 200) * 10);
 			}
 		}
 		if (x === n - 1 && y === m - 1) {
 			x = 0;
 			y = 0;
-			console.log("End of image, returning to start in 10 seconds");
-			await sleep(10 * 1000);
+			console.log("End of image, returning to start in 5 seconds");
+			await sleep(10 * 500);
 		} else if (x === n - 1) {
 			x = 0;
 			y++;
 		} else {
 			x++;
 		}
-		await sleep(100);
+		await sleep(10);
 	}
 }
 
