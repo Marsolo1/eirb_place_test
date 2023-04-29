@@ -97,7 +97,7 @@ async function main() {
 						}
 					});
 					await sleep((currentTimer) * 1000);
-					await sleep(getRandomInt(150, 600) * 10);
+					await sleep(getRandomInt(150, 400) * 10);
 				} catch (error) {
 					console.log(error);
 				}
