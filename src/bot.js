@@ -69,7 +69,13 @@ async function main() {
 			});
 			if (noskip) {
 				await placePixel(px, py, currentHex).catch((error) => { console.log(error) }).then((data) => {
-					currentTimer = data.timer.seconds || 10;
+					if (data == null || data == undefined) {
+						console.log("Failed to place pixel, retrying in 60 seconds");
+						currentTimer = 60;
+						return;
+					} else {
+						currentTimer = data.timer.seconds;
+					}
 					if (data.success) {
 						console.log(`Placed color %c${currentHex}%cat pixel ${px}, ${py}. ${currentTimer} seconds remaining`, `color: ${currentHex}`);
 					} else {
